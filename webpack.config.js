@@ -1,17 +1,21 @@
 let path = require('path');
+// 插件都是一个类，所以我们命名的时候尽量用大写开头
+let HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    // 1.写成数组的方式就可以打出多入口文件，不过这里打包后的文件都合成了一个
-    // entry: ['./src/index.js', './src/login.js'],
-    // 2.真正实现多入口和多出口需要写成对象的方式
-    entry: {
-        index: './src/index.js',
-        login: './src/login.js'
-    },
-    output: {
-        // 1. filename: 'bundle.js',
-        // 2. [name]就可以将出口文件名和入口文件名一一对应
-        filename: '[name].js',      // 打包后会生成index.js和login.js文件
-        path: path.resolve('dist')
-    }
+  entry: './src/index.js',
+  output: {
+    // 添加hash可以防止文件缓存，每次都会生成4位的hash串
+    filename: 'bundle.[hash:4].js',
+    path: path.resolve('dist')
+  },
+  plugins: [
+    // 通过new一下这个类来使用插件
+    new HtmlWebpackPlugin({
+      // 用哪个html作为模板
+      // 在src目录下创建一个index.html页面当做模板来用
+      template: './src/index.html',
+      hash: true, // 会在打包好的bundle.js后面加上hash串
+    })
+  ]
 }
