@@ -3,19 +3,26 @@ let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    // 多页面开发，配置多个入口文件
+    index: './src/index.js',
+    login: './src/login.js'
+  },
+  // 出口文件  
   output: {
-    // 添加hash可以防止文件缓存，每次都会生成4位的hash串
-    filename: 'bundle.[hash:4].js',
+    filename: '[name].js',
     path: path.resolve('dist')
   },
   plugins: [
-    // 通过new一下这个类来使用插件
     new HtmlWebpackPlugin({
-      // 用哪个html作为模板
-      // 在src目录下创建一个index.html页面当做模板来用
       template: './src/index.html',
-      hash: true, // 会在打包好的bundle.js后面加上hash串
+      filename: 'index.html',
+      chunks: ['index']   // 对应关系,index.js对应的是index.html
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/login.html',
+      filename: 'login.html',
+      chunks: ['login']   // 对应关系,login.js对应的是login.html
     })
   ]
 }
