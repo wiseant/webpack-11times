@@ -9,6 +9,21 @@ module.exports = {
     filename: 'bundle.[hash:4].js',
     path: path.resolve('dist')
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,     // 解析css
+        use: ['style-loader', 'css-loader'] // 从右向左解析
+        /* 
+            也可以这样写，这种方式方便写一些配置参数
+            use: [
+                {loader: 'style-loader'},
+                {loader: 'css-loader'}
+            ]
+        */
+      }
+    ]
+  },
   plugins: [
     // 通过new一下这个类来使用插件
     new HtmlWebpackPlugin({

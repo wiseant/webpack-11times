@@ -1,3 +1,5 @@
+import './css/style.css';   // 引入css
+
 console.log('index.js')
 
 let div=document.createElement("div");
