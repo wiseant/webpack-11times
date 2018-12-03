@@ -1,1 +1,4 @@
-console.log('index.js')
+foo = () => {
+  alert('How are you?')
+}
+foo()
