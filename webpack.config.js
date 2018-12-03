@@ -18,6 +18,17 @@ module.exports = {
           // 将css用link的方式引入就不再需要style-loader了
           use: 'css-loader'
         })
+      },
+      //打包CSS样式中背景图
+      {
+        test: /\.(png|jpg)$/,
+        loader: "url-loader",
+        options: {
+          limit: 8192, //limit参数，代表如果图片文件小于指定字节数则自动压缩成base64编码的图片,否则拷贝文件到生产目录
+          name: '[name].[hash:4].[ext]', //打包生成文件名的规则
+          outputPath: 'images/',   //图片打包后存放的目录，相对于dist目录的路径
+          publicPath: '../images' //非常重要！ 如果不指定此参数，则css样式中引用的图片路径都会基于css文件所在的目录
+        }
       }
     ]
   },
