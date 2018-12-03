@@ -1,6 +1,7 @@
 let path = require('path');
 // 插件都是一个类，所以我们命名的时候尽量用大写开头
 let HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
   entry: './src/index.js',
@@ -13,14 +14,10 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,     // 解析css
-        use: ['style-loader', 'css-loader'] // 从右向左解析
-        /* 
-            也可以这样写，这种方式方便写一些配置参数
-            use: [
-                {loader: 'style-loader'},
-                {loader: 'css-loader'}
-            ]
-        */
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
       }
     ]
   },
@@ -31,6 +28,10 @@ module.exports = {
       // 在src目录下创建一个index.html页面当做模板来用
       template: './src/index.html',
       hash: true, // 会在打包好的bundle.js后面加上hash串
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[chunkhash:8].css",
+      chunkFilename: "[id].css"
     })
   ]
 }
